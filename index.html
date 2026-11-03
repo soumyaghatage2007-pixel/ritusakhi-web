@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RituSakhi – Your cycle, your health, your SAKHI</title>
+  <meta name="description" content="CycleCare RituSakhi is a smart menstrual health awareness assistant providing cycle intelligence, ovulation evidence tracking, multilingual support, and privacy-first local records.">
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-container">
+      <svg class="brand-logo-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 4C24 18 12 28 12 42C12 53 21 60 32 60C43 60 52 53 52 42C52 28 40 18 32 4Z" fill="#E91E63"/>
+        <path d="M32 16C27 26 20 33 20 42C20 48.6 25.4 54 32 54C38.6 54 44 48.6 44 42C44 33 37 26 32 16Z" fill="#FCE4EC"/>
+        <circle cx="32" cy="40" r="6" fill="#8E24AA"/>
+      </svg>
+      <div class="brand-text">
+        <h1 id="brandTitle">RituSakhi</h1>
+        <p class="tagline" id="brandTagline">Your cycle, your health, your SAKHI</p>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <select id="langSelector" class="lang-select" aria-label="Select Language">
+        <option value="en">English</option>
+        <option value="kn">ಕನ್ನಡ (Kannada)</option>
+        <option value="hi">हिन्दी (Hindi)</option>
+        <option value="ta">தமிழ் (Tamil)</option>
+        <option value="te">తెలుగు (Telugu)</option>
+        <option value="ml">മലയാളം (Malayalam)</option>
+        <option value="mr">मराठी (Marathi)</option>
+        <option value="bn">বাংলা (Bengali)</option>
+        <option value="gu">ગુજરાતી (Gujarati)</option>
+        <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+        <option value="ur">اردو (Urdu)</option>
+      </select>
+
+      <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Theme">
+        🌙
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+
+    <!-- Hero Card -->
+    <section class="hero-banner">
+      <div class="hero-content">
+        <div class="hero-info">
+          <h2 id="welcomeGreeting">Hello, Sakhi</h2>
+          <p id="heroSubtext">Track menstrual rhythms, ovulation signals, and explainable health insights with 100% offline privacy.</p>
+          <div style="margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <span class="badge-pill" id="badgeNextPeriod">Next Period in 14 days</span>
+            <span class="badge-pill" style="background: var(--secondary-light); color: var(--secondary);" id="badgeCycleLen">Avg Cycle: 28 Days</span>
+            <span class="badge-pill" style="background: var(--accent-light); color: var(--accent);" id="badgeStdDev">Variation: ±1.2 Days</span>
+          </div>
+        </div>
+
+        <div class="cycle-hero-wheel" id="heroWheel">
+          <span class="day-number" id="cycleDayNumber">Day 14</span>
+          <span class="phase-label" id="cyclePhaseName">Ovulation Window</span>
+          <span class="next-countdown" id="cycleCountdownText">Period in 14d</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Action Pills Row -->
+    <section class="quick-pills-row">
+      <div class="quick-pill-card" id="btnLogPeriodModal">
+        <span class="pill-icon">🩸</span>
+        <span class="pill-text">Log Period</span>
+      </div>
+      <div class="quick-pill-card" id="btnLogSymptomsModal">
+        <span class="pill-icon">🩺</span>
+        <span class="pill-text">Log Symptom</span>
+      </div>
+      <div class="quick-pill-card" id="btnLogMoodModal">
+        <span class="pill-icon">🌸</span>
+        <span class="pill-text">Log Mood</span>
+      </div>
+      <div class="quick-pill-card" id="btnLogTempModal">
+        <span class="pill-icon">🌡️</span>
+        <span class="pill-text">Log BBT</span>
+      </div>
+      <div class="quick-pill-card" id="btnOpenVoiceModal">
+        <span class="pill-icon">🎙️</span>
+        <span class="pill-text">Talk to Sakhi</span>
+      </div>
+      <div class="quick-pill-card" id="btnOpenDoctorSummary">
+        <span class="pill-icon">📄</span>
+        <span class="pill-text">Doctor Report</span>
+      </div>
+      <div class="quick-pill-card" id="btnOpenCsvModal">
+        <span class="pill-icon">📥</span>
+        <span class="pill-text">CSV Importer</span>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs Bar -->
+    <nav class="nav-tabs-bar" role="tablist">
+      <button class="nav-tab-btn active" data-tab="tab-calendar">📅 Smart Calendar</button>
+      <button class="nav-tab-btn" data-tab="tab-intelligence">✨ Cycle Intelligence</button>
+      <button class="nav-tab-btn" data-tab="tab-ovulation">🔬 Ovulation Evidence</button>
+      <button class="nav-tab-btn" data-tab="tab-symptoms">📊 Symptom Insights</button>
+      <button class="nav-tab-btn" data-tab="tab-education">📚 Education</button>
+      <button class="nav-tab-btn" data-tab="tab-partner">🤝 Partner &amp; Privacy</button>
+    </nav>
+
+    <!-- TAB 1: SMART CALENDAR & DAILY INSPECTOR -->
+    <section id="tab-calendar" class="tab-pane active">
+      <div class="dashboard-grid">
+        <!-- Calendar Card -->
+        <div class="dashboard-card">
+          <div class="card-header-bar">
+            <h3 class="card-title">Interactive Menstrual Calendar</h3>
+            <div class="calendar-month-nav">
+              <button id="calPrevMonth">&lt;</button>
+              <span id="calMonthLabel" style="font-weight: 700; margin: 0 12px;">November 2026</span>
+              <button id="calNextMonth">&gt;</button>
+            </div>
+          </div>
+
+          <div class="calendar-weekdays">
+            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+          </div>
+
+          <div class="calendar-days-grid" id="calDaysGrid">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Color Legend -->
+          <div class="legend-row">
+            <div class="legend-item"><span class="legend-dot" style="background: var(--phase-period);"></span><span>Recorded Period</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background: var(--phase-predicted);"></span><span>Predicted Period</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background: var(--phase-ovulation);"></span><span>Estimated Ovulation</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background: var(--phase-fertile);"></span><span>Fertile Window</span></div>
+            <div class="legend-item"><span class="legend-dot" style="background: var(--phase-observation);"></span><span>Observation Logged</span></div>
+          </div>
+        </div>
+
+        <!-- Selected Day Inspector Card -->
+        <div class="dashboard-card">
+          <h3 class="card-title" id="inspectorDateTitle">Selected Date: Today</h3>
+          <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;" id="inspectorStatusText">No period flow recorded for this date.</p>
+
+          <div style="margin-top: 16px; background: var(--surface-alt); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <div style="font-size: 12px; font-weight: 700; color: var(--secondary);">Logged Symptoms:</div>
+            <div id="inspectorSymptoms" style="font-size: 13px; margin-top: 2px;">None recorded</div>
+
+            <div style="font-size: 12px; font-weight: 700; color: var(--primary); margin-top: 10px;">Logged Mood:</div>
+            <div id="inspectorMood" style="font-size: 13px; margin-top: 2px;">None recorded</div>
+
+            <div style="font-size: 12px; font-weight: 700; color: #00796b; margin-top: 10px;">Basal Body Temp (BBT):</div>
+            <div id="inspectorBbt" style="font-size: 13px; margin-top: 2px;">Not logged</div>
+          </div>
+
+          <button class="btn-primary" id="btnLogInspectorDate" style="margin-top: 20px;">+ Add / Edit for this Date</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: CYCLE INTELLIGENCE (MAIN INNOVATION) -->
+    <section id="tab-intelligence" class="tab-pane" style="display: none;">
+      <div class="dashboard-card">
+        <div class="card-header-bar">
+          <div>
+            <h3 class="card-title">Cycle Intelligence Engine</h3>
+            <p style="font-size: 13px; color: var(--text-muted);">Explainable pattern analysis, variation calculation, and persistent shift alerts</p>
+          </div>
+          <span class="badge-pill">Rule-Based Logic</span>
+        </div>
+
+        <!-- Statistical Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 16px;">
+          <div style="background: var(--primary-light); padding: 16px; border-radius: var(--radius-md);">
+            <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--primary);">Average Cycle Length</div>
+            <div id="statAvgCycle" style="font-size: 22px; font-weight: 800; color: var(--primary); margin-top: 4px;">28.5 Days</div>
+          </div>
+          <div style="background: var(--secondary-light); padding: 16px; border-radius: var(--radius-md);">
+            <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--secondary);">Cycle Variation (Std Dev σ)</div>
+            <div id="statStdDev" style="font-size: 22px; font-weight: 800; color: var(--secondary); margin-top: 4px;">±1.2 Days</div>
+          </div>
+          <div style="background: var(--accent-light); padding: 16px; border-radius: var(--radius-md);">
+            <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--accent);">Average Duration</div>
+            <div id="statAvgDuration" style="font-size: 22px; font-weight: 800; color: var(--accent); margin-top: 4px;">5.0 Days</div>
+          </div>
+          <div style="background: var(--surface-alt); border: 1px solid var(--border-color); padding: 16px; border-radius: var(--radius-md);">
+            <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Cycles Recorded</div>
+            <div id="statTotalCycles" style="font-size: 22px; font-weight: 800; color: var(--text-main); margin-top: 4px;">4 Completed</div>
+          </div>
+        </div>
+
+        <!-- Intelligence Insights Alert Cards -->
+        <div style="margin-top: 24px;">
+          <h4 style="font-size: 15px; margin-bottom: 12px;">Active Intelligence Insights:</h4>
+          <div id="insightsContainer">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: OVULATION EVIDENCE TRACKER -->
+    <section id="tab-ovulation" class="tab-pane" style="display: none;">
+      <div class="dashboard-card">
+        <div class="card-header-bar">
+          <div>
+            <h3 class="card-title">Ovulation Evidence Tracker</h3>
+            <p style="font-size: 13px; color: var(--text-muted);">Multi-layer evidence combining calendar math with biological observations</p>
+          </div>
+          <span class="badge-pill" id="ovulationEvidenceBadge">Calendar Estimate</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
+          <div style="background: var(--surface-alt); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px;">
+            <div style="font-weight: 700; color: var(--primary); font-size: 14px;">Layer 1: Calendar Mathematical Projection</div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;" id="ovLayer1Text">Calculated via cycle length minus 14-day luteal phase assumption.</p>
+          </div>
+
+          <div style="background: var(--surface-alt); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px;">
+            <div style="font-weight: 700; color: var(--secondary); font-size: 14px;">Layer 2: BBT Biphasic Thermal Shift</div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;" id="ovLayer2Text">No sustained 0.3°F thermal rise detected yet for this cycle.</p>
+          </div>
+
+          <div style="background: var(--surface-alt); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px;">
+            <div style="font-weight: 700; color: #00796b; font-size: 14px;">Layer 3: Cervical Mucus Consistency</div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;" id="ovLayer3Text">No fertile egg-white or watery fluid recorded yet.</p>
+          </div>
+
+          <div style="background: var(--surface-alt); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px;">
+            <div style="font-weight: 700; color: var(--accent); font-size: 14px;">Layer 4: LH Strip Surge Result</div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;" id="ovLayer4Text">No positive or peak LH surge test strip logged.</p>
+          </div>
+        </div>
+
+        <div class="disclaimer-banner" style="margin-top: 24px;">
+          <b>IMPORTANT SAFETY NOTICE:</b> Ovulation timing varies naturally. Calendar math and self-recorded observations provide awareness only and CANNOT be used as contraception or medical diagnosis.
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: SYMPTOM INSIGHTS -->
+    <section id="tab-symptoms" class="tab-pane" style="display: none;">
+      <div class="dashboard-card">
+        <h3 class="card-title">Recurring Phase-Symptom Clusters</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">Factual correlations between your logged symptoms and menstrual phases across past cycles</p>
+
+        <div id="symptomCorrelationsContainer" style="margin-top: 18px;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: HEALTH EDUCATION MODULE -->
+    <section id="tab-education" class="tab-pane" style="display: none;">
+      <div class="dashboard-card">
+        <div class="card-header-bar">
+          <h3 class="card-title">Menstrual Health Education</h3>
+          <button id="btnListenArticle" class="badge-pill" style="cursor: pointer; border: none; font-size: 12px;">🔊 Listen (Audio Guide)</button>
+        </div>
+
+        <input type="text" id="educationSearchInput" placeholder="Search topics, myths, cramps, hygiene..." style="width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-size: 13px; margin-bottom: 16px;">
+
+        <div id="educationArticlesList" style="display: grid; gap: 14px;">
+          <!-- Dynamically populated from 12 medical topics -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: PARTNER SHARING & PRIVACY -->
+    <section id="tab-partner" class="tab-pane" style="display: none;">
+      <div class="dashboard-grid">
+        <!-- Partner Sharing Card -->
+        <div class="dashboard-card">
+          <h3 class="card-title">Partner Sharing</h3>
+          <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">User-controlled optional sharing. Revoke access at any time.</p>
+
+          <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 10px;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px;">
+              <input type="checkbox" id="sharePeriodCheck" checked> Share Estimated Period Window
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px;">
+              <input type="checkbox" id="shareFertileCheck"> Share Fertile Window
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px;">
+              <input type="checkbox" id="shareMoodCheck" checked> Share Mood Updates
+            </label>
+          </div>
+
+          <button class="btn-primary" id="btnGenPartnerCode" style="margin-top: 18px;">Generate Private Share Code</button>
+          <div id="partnerCodeDisplay" style="margin-top: 12px; display: none; background: var(--secondary-light); padding: 12px; border-radius: var(--radius-sm); text-align: center; font-weight: 700; color: var(--secondary);">
+            Code: <span id="partnerCodeVal">SAKHI-9421</span>
+          </div>
+          <button class="btn-outline" id="btnRevokePartner" style="margin-top: 10px; color: #d32f2f;">Revoke All Access</button>
+        </div>
+
+        <!-- Privacy Card -->
+        <div class="dashboard-card">
+          <h3 class="card-title">100% Offline Privacy Guarantee</h3>
+          <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">CycleCare stores records exclusively on this device. No advertising trackers, no mandatory accounts.</p>
+
+          <button class="btn-outline" id="btnExportJsonCsv" style="margin-top: 20px;">Export Data as CSV</button>
+          <button class="btn-outline" id="btnWipeLocalData" style="margin-top: 10px; border-color: #d32f2f; color: #d32f2f;">One-Tap Data Deletion</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- General Medical Disclaimer Banner -->
+    <div class="disclaimer-banner">
+      <b>CLINICAL NOTICE:</b> RituSakhi (CycleCare) is an educational awareness assistant. It does not diagnose PCOS or medical conditions, guarantee period dates, or substitute for a professional healthcare consultation.
+    </div>
+
+  </main>
+
+  <!-- MODAL: VOICE ASSISTANT (TALK TO SAKHI) -->
+  <div class="modal-overlay" id="modalVoice">
+    <div class="modal-card">
+      <div class="voice-assistant-box">
+        <div class="voice-mic-circle" id="voiceMicButton">🎙️</div>
+        <h3 style="color: var(--primary);" id="voiceStatusText">Tap Mic to Talk</h3>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Speak in English, Kannada, Hindi, Tamil, Telugu, and more</p>
+
+        <div class="voice-transcript-bubble" id="voiceTranscriptBox">
+          "When is my next expected period?"
+        </div>
+
+        <div style="font-size: 13px; color: var(--secondary); font-weight: 600;" id="voiceAnswerBox">
+          Tap the microphone and ask a question.
+        </div>
+      </div>
+
+      <div style="margin-top: 18px;">
+        <div style="font-size: 12px; font-weight: 700; color: var(--text-muted);">Or try clicking an example:</div>
+        <div class="chips-flex" style="margin-top: 8px;">
+          <div class="selectable-chip" onclick="simulateVoiceQuery('When is my next expected period?')">"Next period date"</div>
+          <div class="selectable-chip" onclick="simulateVoiceQuery('Record today\'s mood as calm')">"Mood: calm"</div>
+          <div class="selectable-chip" onclick="simulateVoiceQuery('I have a headache today')">"Log headache"</div>
+          <div class="selectable-chip" onclick="simulateVoiceQuery('Explain ovulation')">"Explain ovulation"</div>
+        </div>
+      </div>
+
+      <button class="btn-outline" onclick="closeAllModals()" style="margin-top: 20px;">Close Voice Assistant</button>
+    </div>
+  </div>
+
+  <!-- MODAL: LOG PERIOD -->
+  <div class="modal-overlay" id="modalPeriod">
+    <div class="modal-card">
+      <h3 style="font-size: 18px; color: var(--primary);">Log Menstrual Period</h3>
+      <label style="display: block; margin-top: 14px; font-size: 13px; font-weight: 600;">Start Date:</label>
+      <input type="date" id="inputPeriodStart" style="width: 100%; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); margin-top: 4px;">
+
+      <label style="display: block; margin-top: 12px; font-size: 13px; font-weight: 600;">End Date (Optional):</label>
+      <input type="date" id="inputPeriodEnd" style="width: 100%; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); margin-top: 4px;">
+
+      <label style="display: block; margin-top: 12px; font-size: 13px; font-weight: 600;">Flow Intensity:</label>
+      <div class="chips-flex" id="flowChipsContainer">
+        <div class="selectable-chip" data-flow="Spotting">Spotting</div>
+        <div class="selectable-chip" data-flow="Light">Light</div>
+        <div class="selectable-chip active" data-flow="Medium">Medium</div>
+        <div class="selectable-chip" data-flow="Heavy">Heavy</div>
+      </div>
+
+      <button class="btn-primary" id="btnSavePeriodRecord">Save Period Record</button>
+      <button class="btn-outline" onclick="closeAllModals()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- MODAL: LOG SYMPTOMS -->
+  <div class="modal-overlay" id="modalSymptoms">
+    <div class="modal-card">
+      <h3 style="font-size: 18px; color: var(--secondary);">Log Daily Symptoms</h3>
+      <div class="chips-flex" id="symptomsChipsList" style="margin-top: 14px;">
+        <div class="selectable-chip active" data-symptom="Cramps">Period Cramps</div>
+        <div class="selectable-chip" data-symptom="Headache">Headache</div>
+        <div class="selectable-chip" data-symptom="Backache">Backache</div>
+        <div class="selectable-chip" data-symptom="Bloating">Bloating</div>
+        <div class="selectable-chip" data-symptom="Acne">Acne</div>
+        <div class="selectable-chip" data-symptom="Fatigue">Fatigue</div>
+        <div class="selectable-chip" data-symptom="Breast Tenderness">Breast Tenderness</div>
+        <div class="selectable-chip" data-symptom="Nausea">Nausea</div>
+        <div class="selectable-chip" data-symptom="Food Cravings">Food Cravings</div>
+        <div class="selectable-chip" data-symptom="Sleep Changes">Sleep Changes</div>
+      </div>
+
+      <label style="display: block; margin-top: 16px; font-size: 13px; font-weight: 600;">Overall Intensity:</label>
+      <div class="chips-flex" id="severityChipsContainer">
+        <div class="selectable-chip active" data-sev="Mild">Mild</div>
+        <div class="selectable-chip" data-sev="Moderate">Moderate</div>
+        <div class="selectable-chip" data-sev="Severe">Severe</div>
+      </div>
+
+      <button class="btn-primary" id="btnSaveSymptomsRecord">Save Symptoms</button>
+      <button class="btn-outline" onclick="closeAllModals()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- MODAL: LOG MOOD -->
+  <div class="modal-overlay" id="modalMood">
+    <div class="modal-card">
+      <h3 style="font-size: 18px; color: var(--primary);">How are you feeling today?</h3>
+      <div class="chips-flex" id="moodChipsList" style="margin-top: 14px;">
+        <div class="selectable-chip" data-mood="Happy">Happy 😊</div>
+        <div class="selectable-chip active" data-mood="Calm">Calm 😌</div>
+        <div class="selectable-chip" data-mood="Energetic">Energetic ⚡</div>
+        <div class="selectable-chip" data-mood="Tired">Tired 🥱</div>
+        <div class="selectable-chip" data-mood="Sad">Sad 😢</div>
+        <div class="selectable-chip" data-mood="Anxious">Anxious 😰</div>
+        <div class="selectable-chip" data-mood="Irritated">Irritated 😠</div>
+        <div class="selectable-chip" data-mood="Emotional">Emotional 🥺</div>
+      </div>
+
+      <button class="btn-primary" id="btnSaveMoodRecord">Save Mood Check-in</button>
+      <button class="btn-outline" onclick="closeAllModals()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- MODAL: LOG BBT -->
+  <div class="modal-overlay" id="modalTemp">
+    <div class="modal-card">
+      <h3 style="font-size: 18px; color: #00796b;">Log Basal Body Temperature (BBT)</h3>
+      <label style="display: block; margin-top: 14px; font-size: 13px; font-weight: 600;">Morning Resting Temp (°F):</label>
+      <input type="number" step="0.1" id="inputBbtValue" value="97.8" style="width: 100%; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); margin-top: 4px;">
+
+      <button class="btn-primary" id="btnSaveBbtRecord">Save Temperature</button>
+      <button class="btn-outline" onclick="closeAllModals()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- MODAL: CSV IMPORTER -->
+  <div class="modal-overlay" id="modalCsv">
+    <div class="modal-card">
+      <h3 style="font-size: 18px; color: var(--secondary);">Cycle Data Importer</h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Switching from Flo, Maya, or Clue? Import past cycles seamlessly.</p>
+
+      <input type="file" id="fileCsvInput" accept=".csv" style="margin-top: 16px;">
+      <button class="btn-outline" id="btnLoadSampleWebCsv" style="margin-top: 12px;">Or Load Sample Flo/Clue Data</button>
+
+      <div id="csvPreviewBox" style="margin-top: 16px; display: none; background: var(--surface-alt); padding: 12px; border-radius: var(--radius-md); font-size: 13px;">
+        <b id="csvPreviewSummary">4 valid cycles detected</b>
+        <div id="csvDuplicateNotice" style="color: var(--text-muted); font-size: 11px;">0 duplicate dates skipped</div>
+      </div>
+
+      <button class="btn-primary" id="btnCommitCsvImport" style="display: none; margin-top: 16px;">Confirm &amp; Import Cycles</button>
+      <button class="btn-outline" onclick="closeAllModals()" style="margin-top: 8px;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Script logic -->
+  <script src="app.js"></script>
+</body>
+</html>
